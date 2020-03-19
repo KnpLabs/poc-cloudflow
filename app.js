@@ -80,7 +80,7 @@ server.listen(port, hostname, () => {
   // Faudra tester, quand on envoi un sessionId expiré, quel est la réponse de Cloudflow. Faudra a ce moment là se réauthentifié :
   // On a pas envie que l'user rerentre ses logs a chaque fois que le sessionId de cloudflow expire. L'ideal serait donc d'authentifié l'utilisateur
   // avec un token jwt contenant son username et son password : si cloudflow dit que la session est expiré, l'api aurait deja toutes les infos pour le
-  // réauthentifié auprès de cloudflow. Il faudra aussi mettre à jour le sessionId stocké en front, via websocket probablement ?
+  // réauthentifié auprès de cloudflow. Il faudra aussi a ce moment là mettre à jour le sessionId stocké en front, via websocket probablement ?
 
   // sessionId datant de 2020/03/19 à 18h53 : 5e6ba3e8dbb1c6374d0d2de721B7322CBE1007CEF60C8423AEA0277A1584683625
   // sessionId expire au bout de 12h donc on pourra tester demain matin
