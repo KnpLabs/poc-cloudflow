@@ -27,13 +27,19 @@ server.listen(port, hostname, () => {
     }
 
     const opts = {
+      // on recupere des trucs quand le sub est 'sub' ou 'one'. Avec le scope par défault ('base'), la recherche ne renvoit aucun résultat
       scope: 'sub',
-      attributes: ['dn', 'sn', 'cn']
+      // ici faut liser les attributs qu'on souhaite récupéré. Si on omet ce champ, on recupere tout
+      attributes: ['mail'],
+      // on peut requeter un user en particulier de cette maniere par exemple :
+      // filter: '(mail=c.meunier@cacom.fr)'
+      // mais je comprend pas pourquoi je trouve pas d'user quand je filtre sur le mail dont on se sert pour se logger... C'est des logs particulier qui correspondent pas a un user en base ?
+      filter: '(mail=c.meunier@cacom.fr)'
     }
 
     client.search('ou=Clichy, ou=Utilisateurs, DC=cacom, DC=fr', opts, (err, res) => {
       res.on('searchEntry', function(entry) {
-        console.log('entry: ' + JSON.stringify(entry.object));
+        console.log(entry.object);
       });
       res.on('searchReference', function(referral) {
         console.log('referral: ' + referral.uris.join());
