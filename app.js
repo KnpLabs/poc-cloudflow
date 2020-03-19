@@ -1,9 +1,3 @@
-// POC Authent
-// Est-ce que le back et cloudflow doivent chacun taper sur le ldap ?
-// Ou est-ce que je peux dire a cloudflow tkt je suis deja authent voici mon role ?
-
-// Comment ca se passe une fois l'user authent, je lui file un cookie httponly ?
-
 const ldap = require('ldap');
 const http = require('http');
 
@@ -26,22 +20,18 @@ server.listen(port, hostname, () => {
   const client = ldap.createClient({
     url: 'ldap://10.10.10.10:389'
   });
+
   client.bind(USER_MAIL, USER_PASSWORD, (err, res) => {
     if (err) {
-      console.log('error ldap bind : ', err)
+      console.log('Error during LDAP bind : ', err)
     }
+
     const opts = {
-      // filter: `(mail=${USER_MAIL})`,
       scope: 'sub',
       attributes: ['dn', 'sn', 'cn']
     }
 
     client.search('ou=Clichy, ou=Utilisateurs, DC=cacom, DC=fr', opts, (err, res) => {
-      // search.on('searchEntry', function (entry) {
-      //   var user = entry.object;
-      //   console.log(user);
-      // });
-
       res.on('searchEntry', function(entry) {
         console.log('entry: ' + JSON.stringify(entry.object));
       });
